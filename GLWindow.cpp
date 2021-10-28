@@ -1,9 +1,9 @@
 #include "GLWindow.h"
 
 #include <QDebug>
-#include <GLES1_Wrapper/GLES1_Wrapper.h>
+//#include <GLES1_Wrapper/GLES1_Wrapper.h>
 
-GLES1_Wrapper * gles1_wrapper;
+//GLES1_Wrapper * gles1_wrapper;
 
 GLWindow::GLWindow(QOpenGLWindow::UpdateBehavior updateBehavior) :
     QOpenGLWindow(updateBehavior)

@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Gui OpenGL REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui OpenGL REQUIRED)
 
-add_subdirectory(GLES1_Wrapper)
+#add_subdirectory(GLES1_Wrapper)
 add_subdirectory(freetype-cmake)
 add_subdirectory(glyphy)
 include_directories(glyphy/src)
@@ -62,7 +62,7 @@ target_link_libraries(
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::OpenGL
     glyphy
-    GLES1_Wrapper
+#    GLES1_Wrapper
 )
 
 set_target_properties(QT_FTGL_CMAKE PROPERTIES
