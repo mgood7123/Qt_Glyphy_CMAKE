@@ -47,7 +47,7 @@ GLWindow::~GLWindow()
     makeCurrent();
 //    delete gles1_wrapper;
 
-    demo_buffer_destroy (buffer);
+    demo_buffer_destroy (context()->functions(), buffer);
     demo_font_destroy (context()->functions(), font);
 
     FT_Done_Face (ft_face);
@@ -78,7 +78,7 @@ void GLWindow::initializeGL()
 
     font = demo_font_create (ft_face, demo_glstate_get_atlas (st));
 
-    buffer = demo_buffer_create ();
+    buffer = demo_buffer_create (context()->functions());
     glyphy_point_t top_left = {0, 0};
     demo_buffer_move_to (buffer, &top_left);
     demo_buffer_add_text (context()->functions(), buffer, "k", font, 1);
