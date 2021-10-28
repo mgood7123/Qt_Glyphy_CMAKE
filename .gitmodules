@@ -1,0 +1,9 @@
+[submodule "freetype-cmake"]
+	path = freetype-cmake
+	url = https://github.com/mgood7123/freetype-cmake
+[submodule "GLES1_Wrapper"]
+	path = GLES1_Wrapper
+	url = https://github.com/mgood7123/QT_GLES1_WRAPPER
+[submodule "glyphy"]
+	path = glyphy
+	url = https://github.com/mgood7123/glyphy
