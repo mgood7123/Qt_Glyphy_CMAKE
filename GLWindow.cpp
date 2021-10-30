@@ -47,14 +47,14 @@ GLWindow::~GLWindow()
     makeCurrent();
 //    delete gles1_wrapper;
 
-    demo_buffer_destroy (context()->functions(), buffer);
-    demo_font_destroy (context()->functions(), font);
+    demo_buffer_destroy (context()->extraFunctions(), buffer);
+    demo_font_destroy (context()->extraFunctions(), font);
 
     FT_Done_Face (ft_face);
     FT_Done_FreeType (ft_library);
 
     demo_view_destroy (vu);
-    demo_glstate_destroy (context()->functions(), st);
+    demo_glstate_destroy (context()->extraFunctions(), st);
 }
 
 void GLWindow::initializeGL()
@@ -68,7 +68,7 @@ void GLWindow::initializeGL()
 
 //    gles1_wrapper = new GLES1_Wrapper(context());
 
-    st = demo_glstate_create (context()->functions());
+    st = demo_glstate_create (context()->extraFunctions());
     vu = demo_view_create (st);
     demo_view_print_help (vu);
 
@@ -77,92 +77,42 @@ void GLWindow::initializeGL()
     if (!ft_face) qFatal("failed to open font file");
 
     font = demo_font_create (ft_face, demo_glstate_get_atlas (st));
-
-    buffer = demo_buffer_create (context()->functions());
+    buffer = demo_buffer_create (context()->extraFunctions());
     glyphy_point_t top_left = {0, 0};
     demo_buffer_move_to (buffer, &top_left);
-    demo_buffer_add_text (context()->functions(), buffer, "k", font, 1);
+    demo_buffer_add_text (context()->extraFunctions(), buffer, "1\n2", font, 200);
 
     demo_font_print_stats (font);
 
-    demo_view_setup (context()->functions(), vu);
+    demo_view_setup (context()->extraFunctions(), vu);
 }
 
 void GLWindow::resizeGL(int w, int h) {
-    demo_view_reshape_func (context()->functions(), vu, w, h);
+    demo_view_reshape_func (context()->extraFunctions(), vu, w, h);
 }
 
 void GLWindow::paintGL()
 {
-    demo_view_display(context()->functions(), vu, buffer);
+    demo_view_display(context()->extraFunctions(), vu, buffer);
+}
 
-//    glEnable(GL_DEPTH);
-//    glClearColor(1, 1, 1, 1);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void GLWindow::keyPressEvent(QKeyEvent * keyEvent)
+{
+    demo_view_keyboard_func(context()->extraFunctions(), vu, keyEvent->key());
+}
 
+void GLWindow::keyReleaseEvent(QKeyEvent * keyEvent)
+{
+}
 
+void GLWindow::mousePressEvent(QMouseEvent *)
+{
+}
 
+void GLWindow::mouseReleaseEvent(QMouseEvent *)
+{
+}
 
-//    gles1_wrapper->glMatrixMode(GL_PROJECTION);
-//    gles1_wrapper->glLoadIdentity();
-
-//    static float angle = 0.0f;
-
-//    gles1_wrapper->glMatrixMode(GL_MODELVIEW);
-//    gles1_wrapper->glLoadIdentity();
-
-//    gles1_wrapper->gluPerspective(45.0f, (float)width() / (float)height(), 0.1f, 100.0f);
-
-//    gles1_wrapper->glTranslatef(0.0f, 0.0f, -6.0f);
-
-    // Rotate around the y and z axis.
-//    gles1_wrapper->glRotatef(angle, 0.0f, 0.0f, 1.0f);
-
-//    gles1_wrapper->glBegin(GL_TRIANGLES);
-//    gles1_wrapper->glColor3f(1.0, 0.0, 0.0); gles1_wrapper->glVertex3f(-1.0, -1.0, 0.0);
-//    gles1_wrapper->glColor3f(0.0, 1.0, 0.0); gles1_wrapper->glVertex3f( 0.0,  1.0, 0.0);
-//    gles1_wrapper->glColor3f(0.0, 0.0, 1.0); gles1_wrapper->glVertex3f( 1.0, -1.0, 0.0);
-//    gles1_wrapper->glEnd();
-
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    gles1_wrapper->glBegin(GL_QUADS);
-//        gles1_wrapper->glVertex3f(-0.5f,  0.0f, 0.0f); // The bottom left corner
-//        gles1_wrapper->glVertex3f( 0.0f,  0.5f, 0.0f); // The top left corner
-//        gles1_wrapper->glVertex3f( 0.5f,  0.0f, 0.0f); // The top right corner
-//        gles1_wrapper->glVertex3f( 0.0f, -0.5f, 0.0f); // The bottom right corner
-//    gles1_wrapper->glEnd();
-
-//    gles1_wrapper->glBegin(GL_QUAD_STRIP); // draw in triangle strips
-//           gles1_wrapper->glVertex2f(0.0f, 0.75f); // top of the roof
-//           gles1_wrapper->glVertex2f(-0.5f, 0.25f); // left corner of the roof
-//           gles1_wrapper->glVertex2f(0.5f, 0.25f); // right corner of the roof
-//           gles1_wrapper->glVertex2f(-0.5f, -0.5f); // bottom left corner of the house
-//           gles1_wrapper->glVertex2f(0.5f, -0.5f); //bottom right corner of the house
-//   gles1_wrapper->glEnd();
-
-//    gles1_wrapper->glBegin(GL_QUAD_STRIP); // draw in triangle strips
-//           gles1_wrapper->glVertex2f(0.0f, 0.75f); // top of the roof
-//           gles1_wrapper->glVertex2f(-0.5f, 0.25f); // left corner of the roof
-//           gles1_wrapper->glColor3f(0.0, 0.0, 1.0);
-//           gles1_wrapper->glVertex2f(0.5f, 0.25f); // right corner of the roof
-//           gles1_wrapper->glColor3f(1.0, 1.0, 1.0);
-//           gles1_wrapper->glVertex2f(-0.5f, -0.5f); // bottom left corner of the house
-//           gles1_wrapper->glColor3f(0.0, 0.0, 1.0);
-//           gles1_wrapper->glVertex2f(0.5f, -0.5f); //bottom right corner of the house
-//   gles1_wrapper->glEnd();
-
-   //    gles1_wrapper->glBegin(GL_QUADS);
-//        gles1_wrapper->glColor3f(0.0, 0.0, 1.0);
-//        gles1_wrapper->glVertex3f(-1.0f, -1.0f, 0.0f); // The bottom left corner
-//        gles1_wrapper->glVertex3f(-1.0f, 1.0f, 0.0f); // The top left corner
-//        gles1_wrapper->glColor3f(1.0, 1.0, 1.0);
-//        gles1_wrapper->glVertex3f(1.0f, 1.0f, 0.0f); // The top right corner
-//        gles1_wrapper->glVertex3f(1.0f, -1.0f, 0.0f); // The bottom right corner
-//    gles1_wrapper->glEnd();
-
-    //    angle++;
-//    angle++;
-
-//    if(angle >= 360.0f)
-//    angle = 0.0f;
+void GLWindow::mouseMoveEvent(QMouseEvent *)
+{
 }
